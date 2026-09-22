@@ -1,20 +1,148 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="px-4 py-5 my-5 text-center hero-section">
-    <div class="container hero-content">
+<!-- Hero Section -->
+<div class="px-4 py-5 mb-5 text-center hero-section position-relative overflow-hidden bg-gradient-success text-white rounded-4 shadow-lg my-3" style="background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #40916c 100%);">
+    <div class="container py-4 hero-content position-relative" style="z-index: 2;">
         <div class="row align-items-center justify-content-center">
-            <div class="col-lg-8">
-                <div class="hero-logo-container mb-4">
-                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Krishi Connect Logo" class="hero-logo img-fluid">
+            <div class="col-lg-10">
+                <div class="hero-logo-container mb-3 text-center">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Krishi Connect Logo" class="hero-logo img-fluid shadow-sm rounded-circle p-2 bg-white" style="max-height: 110px;">
                 </div>
-                <h1 class="display-4 fw-bolder text-success mb-3">Welcome to Krishi Connect</h1>
-                <p class="lead mb-4 text-secondary fs-4">Empowering farmers and connecting them directly with buyers. Please log in or register to access the marketplace.</p>
-                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-5">
-                    <a href="{{ url_for('auth.login') }}" class="btn btn-success btn-lg px-5 py-3 gap-3 fw-bold shadow-sm rounded-pill transition-hover">Login</a>
-                    <a href="{{ url_for('auth.register_selection') }}" class="btn btn-outline-success bg-white btn-lg px-5 py-3 fw-bold shadow-sm rounded-pill transition-hover">Register</a>
+                <h1 class="display-4 fw-bolder text-white mb-3">Welcome to Krishi Connect</h1>
+                <p class="lead mb-4 text-light fs-4 mx-auto" style="max-width: 800px; line-height: 1.6;">
+                    Bridging the gap between farmers and buyers. Krishi Connect is a direct agricultural marketplace that empowers local farmers to sell fresh crops directly to buyers without any middlemen.
+                </p>
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-warning text-dark btn-lg px-5 py-3 fw-bold shadow rounded-pill transition-hover">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Login Now
+                    </a>
+                    <a href="{{ url_for('auth.register_selection') }}" class="btn btn-light btn-lg px-5 py-3 fw-bold shadow rounded-pill transition-hover text-success">
+                        <i class="bi bi-person-plus-fill me-2"></i>Join Marketplace
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- About Application Section -->
+<div class="container my-5 py-4">
+    <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+            <span class="badge bg-success-subtle text-success fw-bold px-3 py-2 rounded-pill mb-2">About Our Platform</span>
+            <h2 class="display-6 fw-bold text-dark mb-4">Transforming Agriculture With Direct Connectivity</h2>
+            <p class="text-secondary fs-5 mb-4" style="line-height: 1.8;">
+                <strong>Krishi Connect</strong> was created with a simple mission: to give farmers total control over their sales while providing buyers with authentic, fresh-from-the-farm produce at fair market rates.
+            </p>
+            <div class="d-flex align-items-start mb-3">
+                <div class="bg-success text-white rounded-circle p-2 me-3 flex-shrink-0 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
+                    <i class="bi bi-currency-dollar fs-5"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1">Zero Middleman Commission</h5>
+                    <p class="text-muted mb-0">Farmers retain 100% of their earnings with transparent pricing and no third-party cuts.</p>
+                </div>
+            </div>
+            <div class="d-flex align-items-start mb-3">
+                <div class="bg-success text-white rounded-circle p-2 me-3 flex-shrink-0 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
+                    <i class="bi bi-bell-fill fs-5"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1">Instant Price & Crop Alerts</h5>
+                    <p class="text-muted mb-0">Buyers get notified as soon as their required crops are listed by nearby farmers.</p>
+                </div>
+            </div>
+            <div class="d-flex align-items-start">
+                <div class="bg-success text-white rounded-circle p-2 me-3 flex-shrink-0 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
+                    <i class="bi bi-shield-check fs-5"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1">Direct Buyer-Farmer Messaging</h5>
+                    <p class="text-muted mb-0">Built-in inquiry system allows direct communication, negotiations, and fulfillment.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg overflow-hidden rounded-4">
+                <img src="{{ url_for('static', filename='img/step2_marketplace.png') }}" alt="Krishi Connect Agricultural Marketplace" class="img-fluid w-100 object-fit-cover" style="height: 380px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="bg-light py-5 my-5 border-top border-bottom">
+    <div class="container py-3">
+        <div class="text-center mb-5">
+            <span class="badge bg-success-subtle text-success fw-bold px-3 py-2 rounded-pill mb-2">Step-by-Step Guide</span>
+            <h2 class="display-6 fw-bold text-dark">How Krishi Connect Works</h2>
+            <p class="text-muted fs-5 mx-auto" style="max-width: 650px;">Connecting hard-working farmers with buyers in 3 simple steps.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Step 1 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover transition-all">
+                    <div class="position-relative">
+                        <img src="{{ url_for('static', filename='img/step1_farmer.png') }}" alt="Step 1: Farmers List Crops" class="card-img-top object-fit-cover" style="height: 220px;">
+                        <span class="position-absolute top-0 start-0 bg-success text-white fw-bold px-3 py-2 m-3 rounded-pill shadow-sm">Step 1</span>
+                    </div>
+                    <div class="card-body p-4 text-center">
+                        <h4 class="fw-bold text-dark mb-2">1. Farmers List Produce</h4>
+                        <p class="card-text text-secondary fs-6">
+                            Farmers upload details about their harvested crops, specifying total quantity (kg/tons), harvest date, price per unit, and location.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover transition-all">
+                    <div class="position-relative">
+                        <img src="{{ url_for('static', filename='img/step2_marketplace.png') }}" alt="Step 2: Buyers Browse Marketplace" class="card-img-top object-fit-cover" style="height: 220px;">
+                        <span class="position-absolute top-0 start-0 bg-success text-white fw-bold px-3 py-2 m-3 rounded-pill shadow-sm">Step 2</span>
+                    </div>
+                    <div class="card-body p-4 text-center">
+                        <h4 class="fw-bold text-dark mb-2">2. Buyers Explore & Inquire</h4>
+                        <p class="card-text text-secondary fs-6">
+                            Wholesalers, retailers, and individual buyers filter listings, compare prices, and send direct inquiry messages to farmers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover transition-all">
+                    <div class="position-relative">
+                        <img src="{{ url_for('static', filename='img/step3_trade.png') }}" alt="Step 3: Direct Trade" class="card-img-top object-fit-cover" style="height: 220px;">
+                        <span class="position-absolute top-0 start-0 bg-success text-white fw-bold px-3 py-2 m-3 rounded-pill shadow-sm">Step 3</span>
+                    </div>
+                    <div class="card-body p-4 text-center">
+                        <h4 class="fw-bold text-dark mb-2">3. Direct Deal & Delivery</h4>
+                        <p class="card-text text-secondary fs-6">
+                            Farmer and buyer agree on quantity and logistics directly, establishing a transparent relationship with guaranteed fresh produce.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call To Action Section -->
+<div class="container my-5 py-4">
+    <div class="bg-success text-white rounded-4 p-5 text-center shadow-lg position-relative overflow-hidden" style="background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);">
+        <h2 class="display-6 fw-bold mb-3">Ready to Experience Direct Agricultural Trade?</h2>
+        <p class="fs-5 text-light mb-4 mx-auto" style="max-width: 700px;">
+            Join thousands of farmers and buyers already growing their agriculture business with Krishi Connect.
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('auth.register_farmer') }}" class="btn btn-warning text-dark btn-lg px-4 py-3 fw-bold rounded-pill shadow">Register as Farmer</a>
+            <a href="{{ url_for('auth.register_buyer') }}" class="btn btn-outline-light btn-lg px-4 py-3 fw-bold rounded-pill shadow">Register as Buyer</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
+

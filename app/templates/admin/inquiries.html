@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mt-3 mb-4 d-flex justify-content-between align-items-center">
+    <h2 class="fw-bold text-dark">Admin Dashboard - Inquiries</h2>
+</div>
+
+<ul class="nav nav-pills mb-4 shadow-sm p-2 bg-white rounded">
+  <li class="nav-item">
+    <a class="nav-link text-primary" href="{{ url_for('admin.dashboard') }}"><i class="bi bi-people-fill me-2"></i>Users</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-success" href="{{ url_for('admin.manage_crops') }}"><i class="bi bi-basket-fill me-2"></i>Crops</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active bg-warning text-dark" href="{{ url_for('admin.manage_inquiries') }}"><i class="bi bi-envelope-fill me-2"></i>Inquiries</a>
+  </li>
+</ul>
+
+<h4 class="fw-bold mb-3 text-warning">Manage All Inquiries</h4>
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Subject</th>
+                        <th>Sender</th>
+                        <th>Receiver</th>
+                        <th>Crop Context</th>
+                        <th>Date Sent</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inquiry in inquiries %}
+                    <tr>
+                        <td class="align-middle">{{ inquiry.id }}</td>
+                        <td class="align-middle fw-bold">{{ inquiry.subject }}</td>
+                        <td class="align-middle">
+                            <span class="badge bg-info text-dark">{{ inquiry.sender.username }}</span>
+                        </td>
+                        <td class="align-middle">
+                            <span class="badge bg-success">{{ inquiry.receiver.username }}</span>
+                        </td>
+                        <td class="align-middle">
+                            {% if inquiry.crop %}
+                                <a href="{{ url_for('buyer.crop_detail', crop_id=inquiry.crop.id) }}" class="text-decoration-none">{{ inquiry.crop.name }}</a>
+                            {% else %}
+                                <span class="text-muted">General</span>
+                            {% endif %}
+                        </td>
+                        <td class="align-middle text-muted small">{{ inquiry.date_sent.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td class="align-middle">
+                            {% if inquiry.is_read %}
+                                <span class="badge bg-secondary">Read</span>
+                            {% else %}
+                                <span class="badge bg-primary">Unread</span>
+                            {% endif %}
+                        </td>
+                        <td class="align-middle text-end">
+                            <form action="{{ url_for('admin.delete_inquiry', inquiry_id=inquiry.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to permanently delete this message?');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center py-4 text-muted">No inquiries found on the platform.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
