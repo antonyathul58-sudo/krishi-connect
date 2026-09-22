@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mt-4 justify-content-center">
+    <div class="col-md-8">
+        <h3 class="fw-bold mb-4">🔔 My Notifications</h3>
+        
+        {% if notifications %}
+            <div class="list-group shadow-sm">
+                {% for notif in notifications %}
+                    <div class="list-group-item list-group-item-action p-4 border-0 border-bottom {% if not notif.is_read %}bg-light{% endif %}">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-2 fw-bold {% if 'Alarm' in notif.message %}text-danger{% else %}text-dark{% endif %}">
+                                {% if 'Alarm' in notif.message %}🚨 {% endif %}{{ notif.message }}
+                            </h5>
+                            <small class="text-muted">{{ notif.date_created.strftime('%b %d, %H:%M') }}</small>
+                        </div>
+                        {% if notif.crop_id %}
+                            <a href="{{ url_for('buyer.crop_detail', crop_id=notif.crop_id) }}" class="btn btn-sm btn-success mt-2">View Crop</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info border-0 shadow-sm text-center p-5">
+                <h4 class="alert-heading">No notifications yet!</h4>
+                <p>Set up Crop Alerts to get notified when what you need becomes available.</p>
+                <hr>
+                <a href="{{ url_for('buyer.alerts') }}" class="btn btn-outline-success">Manage Alerts</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

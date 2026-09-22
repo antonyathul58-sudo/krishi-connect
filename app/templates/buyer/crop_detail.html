@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 overflow-hidden">
+            <img src="{{ url_for('static', filename='uploads/' + crop.image_file) }}" class="img-fluid" alt="{{ crop.name }}" style="max-height: 400px; width:100%; object-fit: cover;">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h2 class="fw-bold text-dark mb-1">{{ crop.name }}</h2>
+        <h3 class="text-success fw-bold mb-3">₹{{ crop.price }} <span class="fs-6 text-muted fw-normal">/ kg</span></h3>
+        
+        <div class="bg-light p-3 rounded mb-4">
+            <div class="row">
+                <div class="col-6">
+                    <p class="mb-1 text-muted small">Available Quantity</p>
+                    <p class="fw-bold mb-0">{{ crop.quantity }} kg</p>
+                </div>
+                <div class="col-6">
+                    <p class="mb-1 text-muted small">Location</p>
+                    <p class="fw-bold mb-0">📍 {{ crop.location }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-6">
+                    <p class="mb-1 text-muted small">Farmer</p>
+                    <p class="fw-bold mb-0">{{ crop.farmer.username }}</p>
+                </div>
+                <div class="col-6">
+                    <p class="mb-1 text-muted small">Listed On</p>
+                    <p class="fw-bold mb-0">{{ crop.date_posted.strftime('%Y-%m-%d') }}</p>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="fw-bold">Description</h5>
+        <p class="text-secondary">{{ crop.description or "No description provided." }}</p>
+        
+        <hr class="my-4">
+        
+        <h4 class="fw-bold text-success mb-3">Contact Farmer</h4>
+        {% if current_user.is_authenticated and current_user.role == 'farmer' %}
+            <div class="alert alert-warning">You are logged in as a farmer. Only buyers can send inquiries.</div>
+        {% else %}
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ form.subject.label(class="form-label fw-semibold") }}
+                            {{ form.subject(class="form-control" + (" is-invalid" if form.subject.errors else "")) }}
+                            {% for error in form.subject.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.message.label(class="form-label fw-semibold") }}
+                            {{ form.message(class="form-control" + (" is-invalid" if form.message.errors else ""), rows="4") }}
+                            {% for error in form.message.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="d-grid">
+                            {{ form.submit(class="btn btn-success fw-bold") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card shadow-sm border-0 mt-3">
+                <div class="card-body p-4 text-center">
+                    <h5 class="fw-bold mb-2">📞 Direct Call</h5>
+                    <p class="text-muted small mb-3">Call the farmer directly without revealing your phone number.</p>
+                    <button class="btn btn-outline-success fw-bold w-100" onclick="alert('Initiating secure in-app voice call to {{ crop.farmer.username }}... \n\n(Your contact number remains hidden.)')">
+                        Call Farmer Securely
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

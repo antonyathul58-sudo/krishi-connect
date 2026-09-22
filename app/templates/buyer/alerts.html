@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h4 class="fw-bold mb-3 text-success">Set New Alert</h4>
+                <p class="text-muted small">Enter the name of the crop you urgently need. We'll sound the alarm when a farmer lists it!</p>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.crop_name.label(class="form-label fw-bold") }}
+                        {{ form.crop_name(class="form-control" + (" is-invalid" if form.crop_name.errors else "")) }}
+                        {% for error in form.crop_name.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                    </div>
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-success fw-bold") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold">My Active Alerts</h4>
+        </div>
+        {% if alerts %}
+            <div class="list-group shadow-sm">
+                {% for alert in alerts %}
+                    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-3 border-0 border-bottom">
+                        <div>
+                            <h5 class="mb-1 fw-bold text-dark">{{ alert.crop_name | capitalize }}</h5>
+                            <small class="text-muted">Set on {{ alert.date_created.strftime('%b %d, %Y') }}</small>
+                        </div>
+                        <form action="{{ url_for('buyer.delete_alert', alert_id=alert.id) }}" method="POST">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Remove this alert?');">Remove</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info border-0 shadow-sm">You have no active crop alerts. Set one to be notified when crops become available!</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mt-3 mb-4">
+    <h2 class="fw-bold">Farmer Dashboard</h2>
+    <a href="{{ url_for('farmer.new_crop') }}" class="btn btn-success fw-bold shadow-sm">➕ List New Crop</a>
+</div>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active fw-bold" id="crops-tab" data-bs-toggle="tab" data-bs-target="#crops" type="button" role="tab" style="color: #198754;">My Listings</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link fw-bold" id="inquiries-tab" data-bs-toggle="tab" data-bs-target="#inquiries" type="button" role="tab" style="color: #198754;">Inquiries Received <span class="badge bg-danger rounded-pill">{{ inquiries|length }}</span></button>
+  </li>
+</ul>
+
+<div class="tab-content pt-4" id="myTabContent">
+  <div class="tab-pane fade show active" id="crops" role="tabpanel">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for crop in crops %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 crop-card">
+                <img src="{{ url_for('static', filename='uploads/' + crop.image_file) }}" class="card-img-top crop-img" alt="{{ crop.name }}">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ crop.name }}</h5>
+                    <p class="mb-1"><span class="text-muted">Quantity:</span> {{ crop.quantity }} kg</p>
+                    <p class="mb-1"><span class="text-muted">Price:</span> <span class="fw-bold text-success">₹{{ crop.price }}</span></p>
+                    <p class="mb-1"><span class="text-muted">Location:</span> {{ crop.location }}</p>
+                    <p class="text-muted small mt-2">Listed on {{ crop.date_posted.strftime('%Y-%m-%d') }}</p>
+                </div>
+                <div class="card-footer bg-white border-top-0 pt-0">
+                    <form action="{{ url_for('farmer.delete_crop', crop_id=crop.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this listing?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger w-100">Delete Listing</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-light border text-center p-5">
+                <h4 class="text-muted mb-3">No Crops Listed Yet</h4>
+                <a href="{{ url_for('farmer.new_crop') }}" class="btn btn-success">Add Your First Crop!</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+  
+  <div class="tab-pane fade" id="inquiries" role="tabpanel">
+    <div class="list-group">
+        {% for inquiry in inquiries %}
+        <div class="list-group-item list-group-item-action flex-column align-items-start mb-3 shadow-sm border-0 rounded p-4">
+            <div class="d-flex w-100 justify-content-between mb-2">
+                <h5 class="mb-1 fw-bold text-success">{{ inquiry.subject }}</h5>
+                <small class="text-muted">{{ inquiry.date_sent.strftime('%b %d, %Y %H:%M') }}</small>
+            </div>
+            <p class="mb-2 fs-5 bg-light p-3 rounded">{{ inquiry.message }}</p>
+            <div class="text-muted small border-top pt-2 mt-2">
+                <strong>From:</strong> {{ inquiry.sender.username }} ({{ inquiry.sender.email }})
+            </div>
+            {% if inquiry.crop %}
+            <div class="mt-2"><span class="badge bg-success-subtle text-success border border-success">Crop: {{ inquiry.crop.name }}</span></div>
+            {% endif %}
+        </div>
+        {% else %}
+        <div class="alert alert-light border text-center p-5">
+            <p class="text-muted mb-0">No inquiries received yet. When buyers message you, they will appear here.</p>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="px-4 py-5 my-5 text-center hero-section">
+    <div class="container hero-content">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-8">
+                <div class="hero-logo-container mb-4">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Krishi Connect Logo" class="hero-logo img-fluid">
+                </div>
+                <h1 class="display-4 fw-bolder text-success mb-3">Welcome to Krishi Connect</h1>
+                <p class="lead mb-4 text-secondary fs-4">Empowering farmers and connecting them directly with buyers. Please log in or register to access the marketplace.</p>
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-5">
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-success btn-lg px-5 py-3 gap-3 fw-bold shadow-sm rounded-pill transition-hover">Login</a>
+                    <a href="{{ url_for('auth.register_selection') }}" class="btn btn-outline-success bg-white btn-lg px-5 py-3 fw-bold shadow-sm rounded-pill transition-hover">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

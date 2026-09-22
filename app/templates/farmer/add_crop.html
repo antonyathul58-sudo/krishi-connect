@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card shadow border-0 form-card">
+            <div class="card-body p-5">
+                <h3 class="mb-4 text-success fw-bold text-center">{{ legend }}</h3>
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.name.label(class="form-label fw-semibold") }}
+                            {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+                            {% for error in form.name.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.location.label(class="form-label fw-semibold") }}
+                            {{ form.location(class="form-control" + (" is-invalid" if form.location.errors else "")) }}
+                            {% for error in form.location.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.quantity.label(class="form-label fw-semibold") }}
+                            {{ form.quantity(class="form-control" + (" is-invalid" if form.quantity.errors else "")) }}
+                            {% for error in form.quantity.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.price.label(class="form-label fw-semibold") }}
+                            <div class="input-group">
+                                <span class="input-group-text bg-light text-success fw-bold">₹</span>
+                                {{ form.price(class="form-control" + (" is-invalid" if form.price.errors else "")) }}
+                                {% for error in form.price.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label fw-semibold") }}
+                        {{ form.description(class="form-control", rows="4") }}
+                    </div>
+
+                    <div class="mb-4">
+                        {{ form.picture.label(class="form-label fw-semibold") }}
+                        {{ form.picture(class="form-control" + (" is-invalid" if form.picture.errors else "")) }}
+                        <div class="form-text">Upload a clear picture of the crop (JPG, PNG). Max size 16MB.</div>
+                        {% for error in form.picture.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                    </div>
+                    
+                    <div class="d-grid mt-4">
+                        {{ form.submit(class="btn btn-success btn-lg fw-bold shadow-sm") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
