@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow border-0 mt-5 form-card rounded-4 overflow-hidden">
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Krishi Connect Logo" style="width: 70px;" class="mb-3 rounded-circle bg-white p-2 shadow-sm border">
+                    <h3 class="fw-bold text-success mb-1">Verify Login</h3>
+                    <p class="text-muted small mb-0">Enter the 6-digit OTP sent to {{ user.email }}</p>
+                </div>
+
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-4">
+                        {{ form.otp.label(class="form-label fw-semibold text-dark text-center w-100") }}
+                        {% if form.otp.errors %}
+                            {{ form.otp(class="form-control form-control-lg text-center fw-bold is-invalid rounded-3", placeholder="------", maxlength="6", autocomplete="off", style="letter-spacing: 0.5em; font-size: 1.5rem;") }}
+                            <div class="invalid-feedback text-center">
+                                {% for error in form.otp.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.otp(class="form-control form-control-lg text-center fw-bold rounded-3", placeholder="------", maxlength="6", autocomplete="off", style="letter-spacing: 0.5em; font-size: 1.5rem;") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid mb-4">
+                        {{ form.submit(class="btn btn-success btn-lg fw-bold rounded-pill shadow-sm") }}
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="small text-muted mb-2">Didn't receive the code?</p>
+                        <a href="{{ url_for('auth.login_resend') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">Resend OTP</a>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card-footer text-center bg-light py-3 border-0">
+                <small class="text-muted">
+                    <a href="{{ url_for('auth.login') }}" class="text-secondary text-decoration-none"><i class="bi bi-arrow-left me-1"></i> Back to Login</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

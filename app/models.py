@@ -10,35 +10,43 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    phone_number = db.Column(db.String(20), nullable=True)
+    district = db.Column(db.String(50), nullable=True, default='Ernakulam')
+    state = db.Column(db.String(50), nullable=True, default='Kerala')
+    country = db.Column(db.String(50), nullable=True, default='India')
+    image_file = db.Column(db.String(50), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     role = db.Column(db.String(20), nullable=False, default='buyer') # farmer, buyer, admin
+    is_verified = db.Column(db.Boolean, default=False)
     
-    crops = db.relationship('Crop', backref='farmer', lazy=True)
-    inquiries_sent = db.relationship('Inquiry', foreign_keys='Inquiry.sender_id', backref='sender', lazy=True)
-    inquiries_received = db.relationship('Inquiry', foreign_keys='Inquiry.receiver_id', backref='receiver', lazy=True)
+    crops = db.relationship('Crop', backref='farmer', lazy=True, cascade='all, delete-orphan')
+    inquiries_sent = db.relationship('Inquiry', foreign_keys='Inquiry.sender_id', backref='sender', lazy=True, cascade='all, delete-orphan')
+    inquiries_received = db.relationship('Inquiry', foreign_keys='Inquiry.receiver_id', backref='receiver', lazy=True, cascade='all, delete-orphan')
     
-    crop_alerts = db.relationship('CropAlert', backref='buyer', lazy=True)
-    notifications = db.relationship('Notification', backref='user', lazy=True)
+    crop_alerts = db.relationship('CropAlert', backref='buyer', lazy=True, cascade='all, delete-orphan')
+    notifications = db.relationship('Notification', backref='user', lazy=True, cascade='all, delete-orphan')
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.role}')"
+        return f"User('{self.username}', '{self.email}', '{self.district}', '{self.state}')"
 
 class Crop(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    category = db.Column(db.String(50), nullable=False, default='Grains')
     quantity = db.Column(db.Float, nullable=False) # e.g., in kg
     price = db.Column(db.Float, nullable=False)
+    district = db.Column(db.String(50), nullable=True, default='Ernakulam')
+    state = db.Column(db.String(50), nullable=True, default='Kerala')
     location = db.Column(db.String(120), nullable=False)
     description = db.Column(db.Text, nullable=True)
     image_file = db.Column(db.String(100), nullable=False, default='default_crop.jpg')
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
     farmer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    inquiries = db.relationship('Inquiry', backref='crop', lazy=True)
+    inquiries = db.relationship('Inquiry', backref='crop', lazy=True, cascade='all, delete-orphan')
 
     def __repr__(self):
-        return f"Crop('{self.name}', '{self.price}', '{self.location}')"
+        return f"Crop('{self.name}', '{self.category}', '{self.district}', '{self.price}')"
 
 class Inquiry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -76,3 +84,22 @@ class Notification(db.Model):
 
     def __repr__(self):
         return f"Notification('{self.message}', '{self.date_created}')"
+
+class Transaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Float, nullable=False)
+    unit_price = db.Column(db.Float, nullable=False)
+    total_price = db.Column(db.Float, nullable=False)
+    status = db.Column(db.String(20), nullable=False, default='Completed') # Completed, Pending, Cancelled
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    
+    buyer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    farmer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    crop_id = db.Column(db.Integer, db.ForeignKey('crop.id'), nullable=True)
+
+    buyer = db.relationship('User', foreign_keys=[buyer_id], backref='buyer_transactions')
+    farmer = db.relationship('User', foreign_keys=[farmer_id], backref='farmer_transactions')
+    crop = db.relationship('Crop', backref='transactions')
+
+    def __repr__(self):
+        return f"Transaction('{self.id}', '{self.total_price}', '{self.status}')"

@@ -20,10 +20,30 @@ def dashboard():
 @buyer.route("/browse")
 @login_required
 def browse():
-    # Marketplace: view all crops
     page = request.args.get('page', 1, type=int)
-    crops = Crop.query.order_by(Crop.date_posted.desc()).paginate(page=page, per_page=12)
-    return render_template('buyer/browse.html', title='Marketplace', crops=crops)
+    district_filter = request.args.get('district', '').strip()
+    category_filter = request.args.get('category', '').strip()
+    q = request.args.get('q', '').strip()
+
+    crop_query = Crop.query
+    if district_filter and district_filter != 'all':
+        crop_query = crop_query.filter((Crop.district == district_filter) | (Crop.location.ilike(f"%{district_filter}%")))
+    if category_filter and category_filter != 'all':
+        crop_query = crop_query.filter(Crop.category == category_filter)
+    if q:
+        crop_query = crop_query.filter(
+            (Crop.name.ilike(f"%{q}%")) | 
+            (Crop.location.ilike(f"%{q}%")) |
+            (Crop.description.ilike(f"%{q}%"))
+        )
+
+    crops = crop_query.order_by(Crop.date_posted.desc()).paginate(page=page, per_page=12)
+    districts = ['Alappuzha', 'Ernakulam', 'Idukki', 'Kannur', 'Kasaragod', 'Kollam', 'Kottayam', 'Kozhikode', 'Malappuram', 'Palakkad', 'Pathanamthitta', 'Thiruvananthapuram', 'Thrissur', 'Wayanad']
+    categories = ['Grains', 'Pulses', 'Vegetables', 'Fruits', 'Spices', 'Oilseeds', 'Other']
+
+    return render_template('buyer/browse.html', title='Marketplace', crops=crops, 
+                           districts=districts, categories=categories,
+                           selected_district=district_filter, selected_category=category_filter, search_query=q)
 
 @buyer.route("/crop/<int:crop_id>", methods=['GET', 'POST'])
 @login_required

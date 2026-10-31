@@ -41,9 +41,9 @@ def new_crop():
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
             
-        crop = Crop(name=form.name.data, quantity=form.quantity.data, price=form.price.data,
-                    location=form.location.data, description=form.description.data, 
-                    image_file=picture_file, farmer=current_user)
+        crop = Crop(name=form.name.data, category=form.category.data, quantity=form.quantity.data, price=form.price.data,
+                    district=form.district.data, state=form.state.data, location=form.location.data, 
+                    description=form.description.data, image_file=picture_file, farmer=current_user)
         db.session.add(crop)
         db.session.commit()
         

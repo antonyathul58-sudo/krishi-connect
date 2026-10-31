@@ -1,6 +1,36 @@
 venv/
 __pycache__/
-*.pyc
-app.db
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
 instance/
 .env
+.env.*
+!.env.example
+
+# Flask / Werkzeug
+*.log
+flask_session/
+
+# Distribution / build
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Uploads (if any user-uploaded files exist locally)
+app/static/uploads/

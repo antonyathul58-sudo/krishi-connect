@@ -1,18 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="px-4 py-5 my-4 text-center hero-section">
-    <div class="container hero-content">
+<div class="px-4 py-5 my-4 text-center hero-section shadow-lg rounded-4 text-white position-relative overflow-hidden" style="background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #40916c 100%); padding: 5rem 2rem !important;">
+    <div class="container hero-content position-relative" style="z-index: 2;">
         <div class="row align-items-center justify-content-center">
-            <div class="col-lg-8">
-                <div class="hero-logo-container mb-4">
-                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Krishi Connect Logo" class="hero-logo img-fluid">
+            <div class="col-lg-9">
+                <div class="hero-logo-container mb-4 text-center">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Krishi Connect Logo" class="hero-logo img-fluid shadow border border-3 border-white rounded-4 p-2 bg-white" style="max-width: 140px;">
                 </div>
-                <h1 class="display-4 fw-bolder text-success mb-3">Welcome to Krishi Connect</h1>
-                <p class="lead mb-4 text-secondary fs-4">Empowering farmers and connecting them directly with buyers. Cut out the middlemen and get the best prices for your produce.</p>
+                <h1 class="display-3 fw-extrabold text-white mb-3" style="text-shadow: 0 3px 12px rgba(0,0,0,0.5); letter-spacing: -1px;">Welcome to Krishi Connect</h1>
+                <p class="lead mb-4 text-white fs-4 fw-semibold mx-auto" style="max-width: 780px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); line-height: 1.6; color: #ffffff !important;">
+                    Empowering farmers and connecting them directly with buyers. Cut out the middlemen and get the best prices for your produce.
+                </p>
                 <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
-                    <a href="{{ url_for('buyer.browse') }}" class="btn btn-success btn-lg px-5 py-3 fw-bold shadow-sm rounded-pill transition-hover">Browse Marketplace</a>
+                    <a href="{{ url_for('buyer.browse') }}" class="btn btn-warning text-dark btn-lg px-5 py-3 fw-bold shadow-lg rounded-pill transition-hover fs-5">
+                        <i class="bi bi-shop me-2"></i>Browse Marketplace
+                    </a>
                     {% if not current_user.is_authenticated %}
-                    <a href="{{ url_for('auth.register_selection') }}" class="btn btn-outline-success bg-white btn-lg px-5 py-3 fw-bold shadow-sm rounded-pill transition-hover">Join Now</a>
+                    <a href="{{ url_for('auth.register_selection') }}" class="btn btn-light btn-lg px-5 py-3 fw-bold shadow-lg rounded-pill transition-hover text-success fs-5">
+                        <i class="bi bi-person-plus-fill me-2"></i>Join Now
+                    </a>
                     {% endif %}
                 </div>
             </div>

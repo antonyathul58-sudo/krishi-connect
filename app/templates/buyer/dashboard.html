@@ -21,7 +21,10 @@
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <small class="text-muted">Sent to: {{ inquiry.receiver.username }} (Farmer)</small>
                     {% if inquiry.crop %}
-                    <a href="{{ url_for('buyer.crop_detail', crop_id=inquiry.crop_id) }}" class="btn btn-sm btn-outline-success">View Crop</a>
+                    <div class="d-flex align-items-center gap-2">
+                        <img src="{{ url_for('static', filename='uploads/' + inquiry.crop.image_file) }}" class="rounded border shadow-sm" style="width: 32px; height: 32px; object-fit: cover;" alt="{{ inquiry.crop.name }}">
+                        <a href="{{ url_for('buyer.crop_detail', crop_id=inquiry.crop_id) }}" class="btn btn-sm btn-outline-success">View {{ inquiry.crop.name }}</a>
+                    </div>
                     {% endif %}
                 </div>
             </div>

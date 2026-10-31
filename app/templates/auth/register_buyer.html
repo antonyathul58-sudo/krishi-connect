@@ -26,11 +26,37 @@
                     <div class="mb-3">
                         {{ form.email.label(class="form-label fw-semibold") }}
                         {% if form.email.errors %}
-                            {{ form.email(class="form-control is-invalid") }}
+                            {{ form.email(class="form-control is-invalid", placeholder="name@example.com") }}
                             <div class="invalid-feedback">
                                 {% for error in form.email.errors %}<span>{{ error }}</span>{% endfor %}
                             </div>
-                        {% else %}{{ form.email(class="form-control") }}{% endif %}
+                        {% else %}{{ form.email(class="form-control", placeholder="name@example.com") }}{% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.phone_number.label(class="form-label fw-semibold") }}
+                        {% if form.phone_number.errors %}
+                            {{ form.phone_number(class="form-control is-invalid", placeholder="+91 9876543210") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.phone_number.errors %}<span>{{ error }}</span>{% endfor %}
+                            </div>
+                        {% else %}{{ form.phone_number(class="form-control", placeholder="+91 9876543210") }}{% endif %}
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-6">
+                            {{ form.district.label(class="form-label fw-semibold") }}
+                            {{ form.district(class="form-select") }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.state.label(class="form-label fw-semibold") }}
+                            {{ form.state(class="form-select") }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.country.label(class="form-label fw-semibold") }}
+                        {{ form.country(class="form-select") }}
                     </div>
                     
                     <div class="mb-3">

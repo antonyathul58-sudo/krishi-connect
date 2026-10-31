@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="bg-gradient-success text-white p-4 text-center position-relative" style="background: linear-gradient(135deg, #198754, #146c43);">
+                    <div class="position-relative d-inline-block mb-3">
+                        <img src="{{ image_file }}" alt="{{ current_user.username }}" class="rounded-circle img-thumbnail shadow" style="width: 120px; height: 120px; object-fit: cover;">
+                        <span class="position-absolute bottom-0 end-0 bg-white rounded-circle p-1 shadow-sm" title="Verified Account">
+                            <i class="bi bi-patch-check-fill text-success fs-4"></i>
+                        </span>
+                    </div>
+                    <h3 class="fw-bold mb-1">{{ current_user.username }}</h3>
+                    <p class="mb-2 text-white-50"><i class="bi bi-envelope me-1"></i>{{ current_user.email }}</p>
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <span class="badge bg-white text-success fw-bold px-3 py-2 rounded-pill shadow-sm text-uppercase">
+                            Role: {{ current_user.role }}
+                        </span>
+                        <span class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill shadow-sm">
+                            <i class="bi bi-geo-alt-fill me-1"></i>{{ current_user.district }}, {{ current_user.state }}, {{ current_user.country }}
+                        </span>
+                        <span class="badge bg-light text-dark fw-bold px-3 py-2 rounded-pill shadow-sm">
+                            <i class="bi bi-shield-check me-1"></i>OTP Verified
+                        </span>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <h4 class="fw-bold text-dark mb-4 border-bottom pb-2"><i class="bi bi-person-gear text-success me-2"></i>Edit Profile Details</h4>
+
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                {{ form.username.label(class="form-label fw-semibold text-dark") }}
+                                {% if form.username.errors %}
+                                    {{ form.username(class="form-control is-invalid rounded-3") }}
+                                    <div class="invalid-feedback">{% for error in form.username.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                                {% else %}
+                                    {{ form.username(class="form-control rounded-3") }}
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.phone_number.label(class="form-label fw-semibold text-dark") }}
+                                {% if form.phone_number.errors %}
+                                    {{ form.phone_number(class="form-control is-invalid rounded-3", placeholder="+91 9876543210") }}
+                                    <div class="invalid-feedback">{% for error in form.phone_number.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                                {% else %}
+                                    {{ form.phone_number(class="form-control rounded-3", placeholder="+91 9876543210") }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.email.label(class="form-label fw-semibold text-dark") }}
+                            {% if form.email.errors %}
+                                {{ form.email(class="form-control is-invalid rounded-3") }}
+                                <div class="invalid-feedback">{% for error in form.email.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                            {% else %}
+                                {{ form.email(class="form-control rounded-3") }}
+                            {% endif %}
+                        </div>
+
+                        <h5 class="fw-bold text-dark mt-4 mb-3 border-bottom pb-2"><i class="bi bi-geo-alt-fill text-danger me-2"></i>Region & Location (District, State, Country)</h5>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                {{ form.district.label(class="form-label fw-semibold text-dark") }}
+                                {{ form.district(class="form-select rounded-3") }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form.state.label(class="form-label fw-semibold text-dark") }}
+                                {{ form.state(class="form-select rounded-3") }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form.country.label(class="form-label fw-semibold text-dark") }}
+                                {{ form.country(class="form-select rounded-3") }}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form.picture.label(class="form-label fw-semibold text-dark") }}
+                            {{ form.picture(class="form-control rounded-3") }}
+                            <small class="text-muted">Upload JPG, JPEG or PNG image</small>
+                            {% if form.picture.errors %}
+                                <div class="text-danger small">{% for error in form.picture.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                            {% endif %}
+                        </div>
+
+                        <h5 class="fw-bold text-dark mt-4 mb-3 border-bottom pb-2"><i class="bi bi-key text-warning me-2"></i>Security & Password</h5>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                {{ form.new_password.label(class="form-label fw-semibold text-dark") }}
+                                {% if form.new_password.errors %}
+                                    {{ form.new_password(class="form-control is-invalid rounded-3", placeholder="Leave blank to keep current") }}
+                                    <div class="invalid-feedback">{% for error in form.new_password.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                                {% else %}
+                                    {{ form.new_password(class="form-control rounded-3", placeholder="Leave blank to keep current") }}
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.confirm_password.label(class="form-label fw-semibold text-dark") }}
+                                {% if form.confirm_password.errors %}
+                                    {{ form.confirm_password(class="form-control is-invalid rounded-3", placeholder="Confirm new password") }}
+                                    <div class="invalid-feedback">{% for error in form.confirm_password.errors %}<span>{{ error }}</span>{% endfor %}</div>
+                                {% else %}
+                                    {{ form.confirm_password(class="form-control rounded-3", placeholder="Confirm new password") }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center pt-2">
+                            <a href="{{ url_for('main.home') }}" class="btn btn-outline-secondary px-4 rounded-pill">Cancel</a>
+                            {{ form.submit(class="btn btn-success btn-lg px-5 fw-bold rounded-pill shadow-sm") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

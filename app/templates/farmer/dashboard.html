@@ -59,7 +59,10 @@
                 <strong>From:</strong> {{ inquiry.sender.username }} ({{ inquiry.sender.email }})
             </div>
             {% if inquiry.crop %}
-            <div class="mt-2"><span class="badge bg-success-subtle text-success border border-success">Crop: {{ inquiry.crop.name }}</span></div>
+            <div class="mt-2 d-flex align-items-center gap-2">
+                <img src="{{ url_for('static', filename='uploads/' + inquiry.crop.image_file) }}" class="rounded border shadow-sm" style="width: 36px; height: 36px; object-fit: cover;" alt="{{ inquiry.crop.name }}">
+                <span class="badge bg-success-subtle text-success border border-success">Crop: {{ inquiry.crop.name }}</span>
+            </div>
             {% endif %}
         </div>
         {% else %}

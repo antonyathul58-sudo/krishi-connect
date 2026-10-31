@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0 mt-5 form-card rounded-4 overflow-hidden">
+            <div class="bg-success text-white py-3 px-4 text-center">
+                <h4 class="fw-bold mb-0"><i class="bi bi-shield-check me-2"></i>OTP Verification</h4>
+            </div>
+            
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <div class="display-4 text-success mb-2"><i class="bi bi-phone-vibrate-fill"></i></div>
+                    <h4 class="fw-bold text-dark mb-1">Enter Verification Code</h4>
+                    <p class="text-muted small">
+                        Please enter the 6-digit OTP sent to verify 
+                        <br><strong>{{ pending_user.email }}</strong> and <strong>{{ pending_user.phone_number }}</strong>
+                    </p>
+                </div>
+
+                {% if current_otp %}
+                <div class="alert alert-info border-info text-center py-2 px-3 mb-4 rounded-3 shadow-sm">
+                    <span class="small text-uppercase fw-bold text-secondary d-block">Demo Verification Code</span>
+                    <span class="display-6 fw-bold text-success tracking-wider">{{ current_otp }}</span>
+                </div>
+                {% endif %}
+
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-4 text-center">
+                        {{ form.otp.label(class="form-label fw-semibold text-dark mb-2") }}
+                        {% if form.otp.errors %}
+                            {{ form.otp(class="form-control form-control-lg text-center fw-bold fs-3 is-invalid rounded-3", placeholder="123456", maxlength="6", autocomplete="off") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.otp.errors %}<span>{{ error }}</span>{% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.otp(class="form-control form-control-lg text-center fw-bold fs-3 rounded-3", placeholder="123456", maxlength="6", autocomplete="off") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid mb-3">
+                        {{ form.submit(class="btn btn-success btn-lg fw-bold rounded-pill shadow-sm") }}
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-footer text-center bg-light py-3 border-0">
+                <small class="text-muted">Didn't receive code? <a href="{{ url_for('auth.register_selection') }}" class="text-success fw-bold text-decoration-none">Start Over</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

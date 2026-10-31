@@ -15,11 +15,18 @@
                             {% for error in form.name.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
                         </div>
                         <div class="col-md-6 mb-3">
+                            {{ form.category.label(class="form-label fw-semibold") }}
+                            {{ form.category(class="form-select" + (" is-invalid" if form.category.errors else "")) }}
+                            {% for error in form.category.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             {{ form.location.label(class="form-label fw-semibold") }}
                             {{ form.location(class="form-control" + (" is-invalid" if form.location.errors else "")) }}
                             {% for error in form.location.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
                         </div>
-                    </div>
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
